@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  bd-usuarios:
+    image: postgres:17
+    container_name: BD_Usuarios
+    environment:
+      POSTGRES_USER: UserPapu
+      POSTGRES_PASSWORD: Papulin
+      POSTGRES_DB: sicaeUsuario
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init-scripts/sicaeUsuario.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
