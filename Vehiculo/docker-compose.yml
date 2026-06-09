@@ -6,7 +6,7 @@ services:
     container_name: BD_Vehiculo
     environment:
       MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: sicaevehiculo
+      MYSQL_DATABASE: sicaeVehiculo
       MYSQL_USER: UserPapu
       MYSQL_PASSWORD: Papulin
     ports:
