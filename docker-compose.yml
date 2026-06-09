@@ -1,0 +1,91 @@
+services:
+  bd-usuarios:
+    image: postgres:17
+    networks:
+      - isolated
+    container_name: BD_Usuarios
+    environment:
+      POSTGRES_USER: UserPapu
+      POSTGRES_PASSWORD: Papulin
+      POSTGRES_DB: sicaeUsuario
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./Autenticacion/ScriptBD/sicaeUsuario.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+
+  bd-estacionamiento:
+    image: mysql:8.0.45
+    networks:
+      - isolated
+    container_name: BD_Estacionamiento
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: sicaeEstacionamiento
+      MYSQL_USER: UserPapu
+      MYSQL_PASSWORD: Papulin
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./Estacionamiento/ScriptBD/sicaeestacionamiento.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+
+  bd-vehiculo:
+    image: mysql:8.0.45
+    networks:
+      - isolated
+    container_name: BD_Vehiculo
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: sicaeVehiculo
+      MYSQL_USER: UserPapu
+      MYSQL_PASSWORD: Papulin
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./Vehiculo/ScriptBD/sicaevehiculo.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+
+  api-auth:
+    build: ./auth-service
+    container_name: Auth_Service
+    networks:
+      - isolated
+    ports:
+      - "8081:8081"
+    depends_on:
+      - bd-usuarios
+
+  api-user:
+    build: ./user-service
+    container_name: User_Service
+    networks:
+      - isolated
+    ports:
+      - "8082:8082"
+    depends_on:
+      - bd-usuarios
+
+  api-parking:
+    build: ./parking-service
+    container_name: Parking_Service
+    networks:
+      - isolated
+    ports:
+      - "8083:8083"
+    depends_on:
+      - bd-estacionamiento
+
+  api-vehicle:
+    build: ./vehicle-service
+    container_name: Vehicle_Service
+    networks:
+      - isolated
+    ports:
+      - "8084:8084"
+    depends_on:
+      - bd-vehiculo
+
+networks:
+  isolated:
+    driver: bridge
