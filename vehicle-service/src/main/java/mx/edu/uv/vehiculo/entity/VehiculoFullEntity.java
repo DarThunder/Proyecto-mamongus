@@ -1,4 +1,4 @@
-package entity;
+package mx.edu.uv.vehiculo.entity;
 
 public class VehiculoFullEntity {
     

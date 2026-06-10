@@ -8,6 +8,6 @@ package mx.edu.uv.vehiculo.controller;
  *
  * @author west
  */
-public class VehiculoRepository {
+public class VehiculoController {
     
 }
