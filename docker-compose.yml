@@ -45,6 +45,20 @@ services:
     volumes:
       - ./Vehiculo/ScriptBD/sicaevehiculo.sql:/docker-entrypoint-initdb.d/init.sql
     restart: always
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-padmin",
+        ]
+      timeout: 20s
+      retries: 10
 
   api-auth:
     build: ./auth-service
@@ -84,7 +98,8 @@ services:
     ports:
       - "8084:8084"
     depends_on:
-      - bd-vehiculo
+      bd-vehiculo:
+        condition: service_healthy
 
 networks:
   isolated:
