@@ -14,6 +14,7 @@ public class VehiculoFullEntity {
     private String color;
     private Integer anio;
     private String descripcion;
+    private Boolean estatus;
 
     // CONSTRUCTOR VACIO
     public VehiculoFullEntity() {
@@ -21,7 +22,7 @@ public class VehiculoFullEntity {
 
     // CONSTRUCTOR
     public VehiculoFullEntity(Integer idVehiculo, Integer idUsuario, String claveVehiculo, Integer idMarca, 
-            String marca, Integer idModelo, String modelo, String placa, String color, Integer anio, String descripcion) {
+            String marca, Integer idModelo, String modelo, String placa, String color, Integer anio, String descripcion, Boolean estatus) {
         this.idVehiculo = idVehiculo;
         this.idUsuario = idUsuario;
         this.claveVehiculo = claveVehiculo;
@@ -33,6 +34,7 @@ public class VehiculoFullEntity {
         this.color = color;
         this.anio = anio;
         this.descripcion = descripcion;
+        this.estatus = estatus;
     }
 
     // GETTERS Y SETTERS
@@ -122,5 +124,13 @@ public class VehiculoFullEntity {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+    
+    public Boolean getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(Boolean estatus) {
+        this.estatus = estatus;
     }
 }

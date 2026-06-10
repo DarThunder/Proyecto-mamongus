@@ -30,6 +30,8 @@ public interface VehiculoRepository {
      * @param idUsuario
      * @return 
      */
-    @Select("SELECT * FROM vehiculosfullinfo WHERE idUsuario = #{idUsuario}")
+    @Select("SELECT * FROM vehiculofullinfo WHERE idUsuario = #{idUsuario}")
     List<VehiculoFullEntity> obtenerVehiculosPorIDRepository(Integer idUsuario);
+    
+    //@Insert("INSERT INTO vehiculo (")
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import mx.edu.uv.vehiculo.entity.Marca;
 import mx.edu.uv.vehiculo.entity.VehiculoFullEntity;
 import mx.edu.uv.vehiculo.repository.VehiculoRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -50,10 +51,16 @@ public class VehiculoService {
         if(idUsuario != null && idUsuario > 0){
             return vr.obtenerVehiculosPorIDRepository(idUsuario);
         }
-         // SI EL ID ES NULL O MENOR QUE 0 MANDA UNA EXCEPCIÓN.
+         // SI EL ID ES NULL,  MENOR O IGUAL QUE 0 MANDA UNA EXCEPCIÓN.
         throw new IllegalArgumentException("Ese ID no existe");
     }
     
+     //REGISTRAR VEHICULO
+     //public ResponseEntity<?> registrarVehiculo (Integer){
+         //return "ola";
+     //}
+    //EDITAR VEHICULO
     
+    //CAMBIAR ESTATUS DE VEHICULO
     
 }
