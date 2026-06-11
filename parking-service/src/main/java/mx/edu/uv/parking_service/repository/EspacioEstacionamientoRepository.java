@@ -16,4 +16,7 @@ public interface EspacioEstacionamientoRepository {
 
     @Update("UPDATE espacioestacionamiento SET Ocupado = 1 WHERE idEspacio = #{idEspacio}")
     void ocuparEspacio(int idEspacio);
+
+    @Update("UPDATE espacioestacionamiento SET Ocupado = 0 WHERE idEspacio = #{idEspacio}")
+    void liberarEspacio(int idEspacio);
 }
