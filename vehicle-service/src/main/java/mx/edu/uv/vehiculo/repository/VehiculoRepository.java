@@ -44,8 +44,8 @@ public interface VehiculoRepository {
      * @param vehiculo 
      */
     @Insert("INSERT INTO vehiculo (idUsuario, claveVehiculo, idModelo, placa, color, anio, descripcion) "
-            + "VALUES (#{vehiculo.getIdUsuario}, #{vehiculo.getClaveVehiculo}, #{vehiculo.getIdModelo}, #{vehiculo.getPlaca}, "
-            + "#{vehiculo.getColor}, #{vehiculo.getAnio}, #{vehiculo.getDescripcion})")
+            + "VALUES (#{idUsuario}, #{claveVehiculo}, #{idModelo}, #{placa}, "
+            + "#{color}, #{anio}, #{descripcion})")
     void registrarNuevoVehiculoRepository(VehiculoEntity vehiculo);
     
     /**
