@@ -29,6 +29,20 @@ services:
     volumes:
       - ./Estacionamiento/ScriptBD/sicaeestacionamiento.sql:/docker-entrypoint-initdb.d/init.sql
     restart: always
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-padmin",
+        ]
+      timeout: 20s
+      retries: 10
 
   bd-vehiculo:
     image: mysql:8.0.45
@@ -88,7 +102,8 @@ services:
     ports:
       - "8083:8083"
     depends_on:
-      - bd-estacionamiento
+      bd-estacionamiento:
+        condition: service_healthy
 
   api-vehicle:
     build: ./vehicle-service

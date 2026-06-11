@@ -6,15 +6,17 @@ package mx.edu.uv.vehiculo.controller;
 
 import java.util.List;
 import mx.edu.uv.vehiculo.entity.Marca;
+import mx.edu.uv.vehiculo.entity.VehiculoFullEntity;
 import mx.edu.uv.vehiculo.service.VehiculoService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * ACA SE HACEN TODAS LAS PETICIONES WEB
  * 
- * @author west
+ * @author Gustavo López
  */
 @RestController
 @RequestMapping("/api/vehiculos")
@@ -29,5 +31,10 @@ public class VehiculoController {
     @GetMapping("/marcas")
     public List<Marca> listarMarcas() {
         return vs.obtenerMarcas();
+    }
+    
+    @GetMapping("/usuario-vehiculos/{idUsuario}")
+    public List<VehiculoFullEntity> listarVehiculosPorIDController(@PathVariable Integer idUsuario) {
+        return vs.obtenerVehiculosPorIDService(idUsuario);
     }
 }
