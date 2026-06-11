@@ -180,6 +180,9 @@ public class VehiculoService {
             original.setIdModelo(vehiculoNuevo.getIdModelo());
         }
         if (vehiculoNuevo.getPlaca() != null && !vehiculoNuevo.getPlaca().isEmpty()) {
+            if (!validacionPlaca(original.getPlaca())) {
+                throw new IllegalArgumentException("Esa placa ya esta registrada, utilice otra");
+            }
             original.setPlaca(vehiculoNuevo.getPlaca());
         }
         if (vehiculoNuevo.getColor() != null && !vehiculoNuevo.getColor().isEmpty()) {
@@ -190,9 +193,6 @@ public class VehiculoService {
         }
         if (vehiculoNuevo.getDescripcion() != null && !vehiculoNuevo.getDescripcion().isEmpty()) {
            original.setDescripcion(vehiculoNuevo.getDescripcion());
-        }
-        if (!validacionPlaca(original.getPlaca())) {
-            throw new IllegalArgumentException("Esa placa ya esta registrada, utilice otra");
         }
         
         // CON TODOS LOS DATOS VALIDADOS, SE HACE LA CONSULTA
