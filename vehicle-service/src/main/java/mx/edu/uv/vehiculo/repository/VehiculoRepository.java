@@ -26,6 +26,15 @@ public interface VehiculoRepository {
     List<Marca> obtenerMarcasRepository();
     
     /**
+     * REGRESA EL ID UN VEHICULO PASANDO SU PLACA
+     * 
+     * @param placa
+     * @return 
+     */
+    @Select("SELECT idVehiculo FROM vehiculofullinfo WHERE placa = #{placa}")
+    String obtenerIdVehiculoDePlacaRepository(String placa);
+    
+    /**
      * HACE LA CONSULTA A LA BASE UTILIZANDO EL ID DEL USUARIO Y RETORNA LOS 
      * VEHICULOS RESPECTIVOS A ESTE.
      * 
@@ -40,6 +49,9 @@ public interface VehiculoRepository {
      * 
      * No se pone idVehiculo ya que en la BD se tiene como AUTO_INCREMENT
      * Tampoco se pone el estatus ya que igual se establece que su valor default es "1"
+     * 
+     * Al parecer MyBatis puede checar los atributos de un objeto por si solo, evitando poner
+     * vehiculo.get...() por cada valor ingresado en el query
      * 
      * @param vehiculo 
      */
@@ -56,7 +68,7 @@ public interface VehiculoRepository {
      * @param idUsuario
      * @return # De vehiculos activos correspondientes a ese id de Usuario
      */
-    @Select("SELECT COUNT(*) FROM vehiculo WHERE estatus = 1 AND idUsuario = #{idUsuario}")
+    @Select("SELECT COUNT(*) FROM vehiculofullinfo WHERE estatus = 1 AND idUsuario = #{idUsuario}")
     Integer usuarioTiene4VehiculosRepository(Integer idUsuario);
     
     /**
@@ -65,6 +77,6 @@ public interface VehiculoRepository {
      * @param placa
      * @return # De vehiculos con esa misma placa
      */
-    @Select("SELECT COUNT(*) FROM vehiculo WHERE placa = #{placa}")
+    @Select("SELECT COUNT(*) FROM vehiculofullinfo WHERE placa = #{placa}")
     Integer validacionPlacaRepository(String placa);
 }

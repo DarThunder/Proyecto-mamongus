@@ -69,23 +69,34 @@ public class VehiculoService {
      */
     public void registrarNuevoVehiculoService(VehiculoEntity vehiculo) {
         if (vehiculo.getIdUsuario() == null || vehiculo.getIdUsuario() <= 0) {
-            throw new IllegalArgumentException("Ese ID no existe o es inválido");
+            throw new IllegalArgumentException("Ese ID no existe");
         }
         if (vehiculo.getClaveVehiculo() == null || vehiculo.getClaveVehiculo().isEmpty()) {
             throw new IllegalArgumentException("Campo de clave vacio, ingresa un valor");
         }
-        if (!usuarioTiene4Vehiculos(vehiculo.getIdUsuario())) {
-            throw new IllegalArgumentException("El usuario ya alcanzó el límite de 4 vehículos activos");
+        if(vehiculo.getIdModelo() == null || vehiculo.getIdModelo() <= 0 || vehiculo.getIdModelo() > 39){
+            throw new IllegalArgumentException("Error con el campo de idModelo, ingrese un numero valido (1-39)");
         }
-        
-        
-        
+        if (vehiculo.getColor() == null || vehiculo.getColor().isEmpty()) {
+            throw new IllegalArgumentException("Campo de color, ingresa un valor");
+        }
          if (vehiculo.getPlaca() == null || vehiculo.getPlaca().isEmpty()) {
             throw new IllegalArgumentException("Campo de placa vacio, ingrese un valor");
+        }
+         if (vehiculo.getAnio() == null || vehiculo.getAnio() <  1980 || vehiculo.getAnio() > 2026) {
+            throw new IllegalArgumentException("Año invalido, ingresa un año valido (1980-2026)");
+        }
+         if (vehiculo.getDescripcion() == null || vehiculo.getDescripcion().isEmpty()) {
+            throw new IllegalArgumentException("Descripción vacia, ingresa una descripción");
         }
         if (!validacionPlaca(vehiculo.getPlaca())) {
             throw new IllegalArgumentException("Esa placa ya esta registrada, utilice otra");
         }
+        if (!usuarioTiene4Vehiculos(vehiculo.getIdUsuario())) {
+            throw new IllegalArgumentException("Este usuario ya tiene 4 vehiculos activos, desactiva uno");
+        }
+        // DESPUES DE TODA ESA VALIDACIÓN SI NO HAY PROBLEMA YA HACE EL INSERT PASANDOLE EL OBJETO
+        vr.registrarNuevoVehiculoRepository(vehiculo);
     }
 
     /**
@@ -114,6 +125,19 @@ public class VehiculoService {
             return false;
         }
         return true;
+    }
+    
+    /**
+     * VALIDACIÓN DE PLACA VACIA PARA RETORNAR SU ID RESPECTIVO
+     * 
+     * @param placa
+     * @return 
+     */
+    public String obtenerIdVehiculoDePlacaService(String placa){
+        if(placa != null || !placa.isEmpty()){
+            return vr.obtenerIdVehiculoDePlacaRepository(placa);
+        }
+        throw new IllegalArgumentException("Ingresa una placa valida");
     }
 
     //EDITAR VEHICULO
