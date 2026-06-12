@@ -23,6 +23,7 @@ public class JwtUtils {
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
+    //La clave se decodifica desde Base64 porque así se almacena en application.properties
     private Key key() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
@@ -32,17 +33,27 @@ public class JwtUtils {
             Jwts.parserBuilder().setSigningKey(key()).build().parse(authToken);
             return true;
         } catch (Exception e) {
-            System.err.println("Invalid JWT token: " + e.getMessage());
+            System.err.println("JWT token invalido: " + e.getMessage());
         }
         return false;
     }
 
-    public String generateTokenFromUsername(String username) {
+    public String generateTokenFromUsername(String username, int idRol) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("idRol", idRol)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public Integer getIdRolFromJwtToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("idRol", Integer.class);
     }
 }

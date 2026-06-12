@@ -28,16 +28,20 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authentication = 
                     new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
                 
+                //Se registra la autenticación en el contexto para que Spring Security la reconozca durante el resto del ciclo de vida del request
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
+            //Si el token es inválido o falla algo, se deja pasar sin autenticar y Spring Security se encarga de bloquear los endpoints protegidos
             System.err.println("No se pudo configurar la autenticación del usuario: " + e.getMessage());
         }
+        //El request siempre continúa, autenticado o no (a tener en cuenta pero equis de)
         filterChain.doFilter(request, response);
     }
 
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
+        //El estándar Bearer requiere el prefijo "Bearer " antes del token
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7);
         }

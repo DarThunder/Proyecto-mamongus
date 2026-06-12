@@ -31,7 +31,7 @@ public class AuthService {
             throw new RuntimeException("Contraseña inválida");
         }
 
-        String token = jwtUtils.generateTokenFromUsername(user.getUsername());
+        String token = jwtUtils.generateTokenFromUsername(user.getUsername(), user.getIdRol());
         String nombreCompleto = user.getNombre() + " " + user.getApellidoPaterno() + (user.getApellidoMaterno() != null ? " " + user.getApellidoMaterno() : "");
 
         return new LoginResponse(user.getIdUsuario(), user.getIdRol(), user.getRol(), user.getUsername(), nombreCompleto, user.getIdTipoUsuario(), user.getTipoUsuario(), token);

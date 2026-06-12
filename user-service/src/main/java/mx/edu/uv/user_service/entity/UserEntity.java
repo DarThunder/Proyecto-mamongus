@@ -17,6 +17,8 @@ public class UserEntity {
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
+    private String telefono;
+    private LocalDateTime tiempoActualizacion;
 
     public UserEntity() {
     }
@@ -137,6 +139,22 @@ public class UserEntity {
 
     public void setApellidoMaterno(String apellidoMaterno) {
         this.apellidoMaterno = apellidoMaterno;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public LocalDateTime getTiempoActualizacion() {
+        return tiempoActualizacion;
+    }
+    
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public void setTiempoActualizacion(LocalDateTime tiempoActualizacion) {
+        this.tiempoActualizacion = tiempoActualizacion;
     }
 
 }

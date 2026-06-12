@@ -1,7 +1,5 @@
 package mx.edu.uv.user_service.dto;
 
-import java.util.Optional;
-
 public class UserRequest {
     private String nombre;
     private String apellidoPaterno;
