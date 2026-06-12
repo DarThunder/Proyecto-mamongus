@@ -75,11 +75,17 @@ public class VehiculoService {
         if (vehiculo.getClaveVehiculo() == null || vehiculo.getClaveVehiculo().isEmpty()) {
             throw new IllegalArgumentException("Campo de clave vacio, ingresa un valor");
         }
+        if(vehiculo.getClaveVehiculo().length() > 10){
+            throw new IllegalArgumentException("La clave de vehiculo solo debe tener 10 caracteres maximo");
+        }
         if (vehiculo.getIdModelo() == null || vehiculo.getIdModelo() <= 0 || vehiculo.getIdModelo() > 39) {
             throw new IllegalArgumentException("Error con el campo de idModelo, ingrese un numero valido (1-39)");
         }
         if (vehiculo.getPlaca() == null || vehiculo.getPlaca().isEmpty()) {
             throw new IllegalArgumentException("Campo de placa vacio, ingrese un valor");
+        }
+        if(vehiculo.getPlaca().length() > 7){
+             throw new IllegalArgumentException("La placa del vehiculo debe tener 7 caracteres maximo");
         }
         if (vehiculo.getColor() == null || vehiculo.getColor().isEmpty()) {
             throw new IllegalArgumentException("Campo de color, ingresa un valor");
@@ -176,11 +182,17 @@ public class VehiculoService {
         if (vehiculoNuevo.getClaveVehiculo() != null && !vehiculoNuevo.getClaveVehiculo().isEmpty()) {
             original.setClaveVehiculo(vehiculoNuevo.getClaveVehiculo());
         }
+        if(vehiculoNuevo.getClaveVehiculo().length() > 10){
+            throw new IllegalArgumentException("La clave de vehiculo solo debe tener 10 caracteres maximo");
+        }
         if (vehiculoNuevo.getIdModelo() != null && vehiculoNuevo.getIdModelo() > 0 && vehiculoNuevo.getIdModelo() <= 39) {
             original.setIdModelo(vehiculoNuevo.getIdModelo());
         }
         if (vehiculoNuevo.getPlaca() != null && !vehiculoNuevo.getPlaca().isEmpty()) {
-            if (!validacionPlaca(original.getPlaca())) {
+             if(vehiculoNuevo.getPlaca().length() > 7){
+             throw new IllegalArgumentException("La placa del vehiculo debe tener 7 caracteres maximo");
+            }
+            if (!validacionPlaca(vehiculoNuevo.getPlaca())) {
                 throw new IllegalArgumentException("Esa placa ya esta registrada, utilice otra");
             }
             original.setPlaca(vehiculoNuevo.getPlaca());

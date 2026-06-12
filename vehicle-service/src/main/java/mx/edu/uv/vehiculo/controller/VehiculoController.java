@@ -165,7 +165,7 @@ public class VehiculoController {
         try {
             vs.actualizarEstatusVehiculoService(idVehiculo, estatus);
             // EL RESPONSE ENTITY SIRVE PARA CHECAR LA RESPUESTA QUE SE OBTENGA DE LA PETICIÓN
-            return ResponseEntity.ok("Actualización exitosa del estatus del vehiculo:  "+ idVehiculo +" a: "+ estatus);
+            return ResponseEntity.ok("Actualización exitosa del estatus del vehiculo: "+ idVehiculo +" a: "+ estatus);
 
         } catch (IllegalArgumentException iae) {
             // ERROR EN CASO DE QUE FALTE ALGUN PARAMETRO EN EL BODY
