@@ -53,6 +53,11 @@ public class UserService {
         return "Usuario registrado exitosamente con clave: " + claveGenerada;
     }
 
+    public boolean exist(String username){
+        Boolean exist = userRepository.existeUsuarioPorCorreoOUsername(username, "");
+        return exist != null && exist;
+    }
+
     public boolean status(String claveUsuario){
         //estatusUsuario puede regresar null si la clave no existe, en ese caso se trata como inactivo
         Boolean status = userRepository.estatusUsuario(claveUsuario);

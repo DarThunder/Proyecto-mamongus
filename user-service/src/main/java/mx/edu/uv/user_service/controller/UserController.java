@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import mx.edu.uv.user_service.dto.UserEditRequest;
 import mx.edu.uv.user_service.dto.UserRequest;
 import mx.edu.uv.user_service.dto.UserResponse;
@@ -38,6 +37,12 @@ public class UserController {
             //Cualquier error que haya pasado se manda con un 400 para que sepa que algo fallo
             return ResponseEntity.status(400).body(e.getMessage());
         }
+    }
+
+    @GetMapping("/{username}/exist")
+    public ResponseEntity<?> existUser(@PathVariable String username){
+        boolean exist = userService.exist(username);
+        return ResponseEntity.ok(exist);
     }
 
     //Endpoint GET para saber el estatus de cualquier usuario en base a su clave
