@@ -53,8 +53,19 @@ public class VehiculoController {
      * @return
      */
     @GetMapping("/usuario-vehiculos/{idUsuario}")
-    public List<VehiculoFullEntity> listarVehiculosPorIDController(@PathVariable Integer idUsuario) {
-        return vs.obtenerVehiculosPorIDService(idUsuario);
+    public ResponseEntity <?>  listarVehiculosPorIDController(@PathVariable Integer idUsuario) {
+        try{
+            List<VehiculoFullEntity> vehiculos = vs.obtenerVehiculosPorIDService(idUsuario);
+            return ResponseEntity.ok(vehiculos);
+            
+        } catch (IllegalArgumentException iae) {
+            // CAPTURA EL ERROR QUE SE MANDA DESDE EL SERVICE
+            return ResponseEntity.badRequest().body(iae.getMessage());
+
+        } catch (Exception e) {
+            // ERROR POR SI LA BASE DE DATOS TIENE ALGUN PROBLEMA
+            return ResponseEntity.internalServerError().body("Ocurrió un error al listar los vehiculos.");
+        }
     }
 
     /**

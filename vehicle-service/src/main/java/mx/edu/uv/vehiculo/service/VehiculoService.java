@@ -11,6 +11,7 @@ import mx.edu.uv.vehiculo.entity.VehiculoFullEntity;
 import mx.edu.uv.vehiculo.repository.VehiculoRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * ACA SE HACEN TODAS LAS FUNCIONES Y OPERACIÓNES CMOPLEJAS PARA EL
@@ -25,11 +26,32 @@ import org.springframework.stereotype.Service;
 public class VehiculoService {
 
     private final VehiculoRepository vr;
+    private final RestTemplate rt;
 
-    public VehiculoService(VehiculoRepository vr) {
+    public VehiculoService(VehiculoRepository vr, RestTemplate rt) {
         this.vr = vr;
+        this.rt = rt;
     }
 
+    /**
+     * LLAMADA A ENDPOINT DE USER PARA VALIDAR QUE UN USUARIO EXISTE
+     * 
+     * @param idUsuario
+     * @return 
+     */
+    public Boolean usuarioExiste(Integer idUsuario){
+        try {
+            // CUANDO LLAMAMOS A LOS ENDPOINTS EL NOMBRE QUE SE USA ES api-"servicio".
+            // NO "servicio"-service o localhost MALTIDA SEA
+            String urlEndpoint = "http://api-user:8082/api/user/"+idUsuario+"/exist";
+            Boolean existe =  rt.getForObject(urlEndpoint, Boolean.class);
+            return existe;
+            
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error al verificar si existe el usuario");
+        }
+    }
+    
     /**
      * PRUEBA RETORNO DE TODAS LAS MARCAS
      *
@@ -50,11 +72,15 @@ public class VehiculoService {
      */
     public List<VehiculoFullEntity> obtenerVehiculosPorIDService(Integer idUsuario) {
         // VALIDACIÓN DEL ID DEL USUARIO
-        if (idUsuario != null && idUsuario > 0) {
-            return vr.obtenerVehiculosPorIDRepository(idUsuario);
+        if (idUsuario == null || idUsuario <= 0) {
+             // SI EL ID ES NULL,  MENOR O IGUAL QUE 0 MANDA UNA EXCEPCIÓN.
+            throw new IllegalArgumentException("Ese ID no existe");
         }
-        // SI EL ID ES NULL,  MENOR O IGUAL QUE 0 MANDA UNA EXCEPCIÓN.
-        throw new IllegalArgumentException("Ese ID no existe");
+        if(!usuarioExiste(idUsuario)){
+            throw new IllegalArgumentException("Ese usuario no existe o esta inactivo");
+        }
+        
+        return vr.obtenerVehiculosPorIDRepository(idUsuario);
     }
 
     /**
@@ -70,7 +96,10 @@ public class VehiculoService {
      */
     public void registrarNuevoVehiculoService(VehiculoEntity vehiculo) {
         if (vehiculo.getIdUsuario() == null || vehiculo.getIdUsuario() <= 0) {
-            throw new IllegalArgumentException("Ese ID no existe");
+            throw new IllegalArgumentException("Ese ID no es valido");
+        }
+        if(!usuarioExiste(vehiculo.getIdUsuario())){
+            throw new IllegalArgumentException("Ese usuario no existe o esta inactivo");
         }
         if (vehiculo.getClaveVehiculo() == null || vehiculo.getClaveVehiculo().isEmpty()) {
             throw new IllegalArgumentException("Campo de clave vacio, ingresa un valor");
